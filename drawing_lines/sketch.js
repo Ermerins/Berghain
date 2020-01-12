@@ -11,7 +11,7 @@ function setup() {
   canvas = createCanvas(400, 400);
   angleMode(DEGREES);
 
-  song = loadSound('mallgrab.mp3', loaded);
+  song = loadSound('../mallgrab.mp3', loaded);
 
   button = createButton('Play/Pause');
   button.mousePressed(function() {
