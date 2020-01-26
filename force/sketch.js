@@ -5,8 +5,9 @@ let movers = [];
 function setup() {
 	canvas = createCanvas(400, 400);
 
-	for(let i = 0; i < 10; i++) {
+	for(let i = 0; i < 5; i++) {
 		movers.push(new Mover());
+
 	}
 	
 }
@@ -32,12 +33,12 @@ function draw() {
 
 class Mover {
 
-	constructor() {
+	constructor(id) {
 		this.location = createVector(200, 60);
 		this.velocity = createVector(0, 0);
 		this.acceleration = createVector(0, 0);
 
-		this.mass = 10;
+		this.mass = random(4, 10);
 	}
 
 	display() {
@@ -52,11 +53,9 @@ class Mover {
 	}
 
 	// acceleration = force / mass
+	// let op: objects (zoals force) zijn pass by reference dus doe copy() op een vec obj
 	applyForce(force) {
-		// dit gaat fout omdat ie voor elk object dezelfde force deelt 
-		let f = force;
-		f.div(this.mass);
-		//  var f = force.div(this.mass);
+		let f = force.copy().div(this.mass);
 		this.acceleration.add(f); 
 	}
 
