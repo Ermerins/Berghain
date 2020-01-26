@@ -1,13 +1,12 @@
 var canvas;
-
 let movers = [];
 
 function setup() {
 	canvas = createCanvas(400, 400);
 
+	// Creating n movers
 	for(let i = 0; i < 5; i++) {
 		movers.push(new Mover());
-
 	}
 	
 }
@@ -24,29 +23,45 @@ function draw() {
 		if(mouseIsPressed) {
 			movers[m].applyForce(wind);
 		}
+
+		// Apply friction
+		// Maar voor lucht gebruik je drag force
+		// F_friction = F_vel * -1 * mu * ||F_normal||
+		if(true) {
+			let friction = movers[m].velocity.copy();
+			let friction_coeff = 0.05;
+			friction.normalize();
+			friction.mult(-1);
+			friction.mult(friction_coeff);
+			movers[m].applyForce(friction);
+		}
+		
+		// Apply drag force
 	
+		// Updating velocity, location, acceleration etc
+		// Checking for edges
+		// And display the mover
 		movers[m].update();
+		movers[m].bounce();
 		movers[m].display();
 	}
 	
 }
 
 class Mover {
-
 	constructor(id) {
-		this.location = createVector(200, 60);
+		this.location = createVector(random(50, width - 50), 60);
 		this.velocity = createVector(0, 0);
 		this.acceleration = createVector(0, 0);
-
-		this.mass = random(4, 10);
+		this.mass = random(1, 3);
 	}
 
 	display() {
 		ellipse(this.location.x, this.location.y, 20, 20);
 	}
 
+	// Multiply acceleration by 0 to prevent endless acceleration
 	update() {
-		this.bounce();
 		this.velocity.add(this.acceleration);
 		this.location.add(this.velocity);
 		this.acceleration.mult(0);
@@ -59,6 +74,7 @@ class Mover {
 		this.acceleration.add(f); 
 	}
 
+	// Checking for the edges
 	bounce() {
 		if(this.location.x > width || this.location.x < 0) {
 			if(this.location.x > width) { this.location.x = width};
@@ -71,7 +87,6 @@ class Mover {
 			if(this.location.y < 0) {this.location.y = 0};
 			this.location.y = height;
 			this.velocity.y *= -1;
-
 		}	
 	}
 
