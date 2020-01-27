@@ -54,10 +54,13 @@ class Mover {
 		this.velocity = createVector(0, 0);
 		this.acceleration = createVector(0, 0);
 		this.mass = random(1, 3);
+
+		this.height = 20;
+		this.width = 20;
 	}
 
 	display() {
-		ellipse(this.location.x, this.location.y, 20, 20);
+		ellipse(this.location.x, this.location.y, this.height, this.width);
 	}
 
 	// Multiply acceleration by 0 to prevent endless acceleration
@@ -76,16 +79,15 @@ class Mover {
 
 	// Checking for the edges
 	bounce() {
-		if(this.location.x > width || this.location.x < 0) {
-			if(this.location.x > width) { this.location.x = width};
-			if(this.location.x < 0) {this.location.x = 0};
+		if(this.location.x > width - (this.width / 2) || this.location.x < this.width / 2) {
+			if(this.location.x > width - (this.width / 2)) { this.location.x = width - (this.width / 2)};
+			if(this.location.x < this.width / 2) {this.location.x = this.width / 2};
 			this.velocity.x *= -1;
 		}
 
-		if(this.location.y > height || this.location.y < 0) {
-			if(this.location.y > height) { this.location.y = height};
-			if(this.location.y < 0) {this.location.y = 0};
-			this.location.y = height;
+		if(this.location.y > height - (this.height / 2) || this.location.y < this.height / 2) {
+			if(this.location.y > height - (this.height / 2)) { this.location.y = height - (this.height / 2)};
+			if(this.location.y < this.height / 2) {this.location.y = this.height / 2};
 			this.velocity.y *= -1;
 		}	
 	}
