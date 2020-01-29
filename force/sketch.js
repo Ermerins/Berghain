@@ -24,10 +24,11 @@ function draw() {
 			movers[m].applyForce(wind);
 		}
 
+		// Actually this works better for falling balls through air.. 
 		// Apply friction
 		// Maar voor lucht gebruik je drag force
 		// F_friction = F_vel * -1 * mu * ||F_normal||
-		if(true) {
+		if(false) {
 			let friction = movers[m].velocity.copy();
 			let friction_coeff = 0.05;
 			friction.normalize();
@@ -37,6 +38,19 @@ function draw() {
 		}
 		
 		// Apply drag force
+		// Fdrag = -1/2 * rho (density) * ||Fvel||^2 * A (surface area) * Coeff_drag * Fvel_unit
+		// Simpler: Fdrag = - C_d * ||vel||^2 * vel_norm
+		if(true) {
+			let drag = movers[m].velocity.copy();
+			let speed = movers[m].velocity.mag();
+			let drag_coeff = 0.001;
+
+			drag.normalize();
+			drag.mult(-1);
+			drag.mult(drag_coeff * speed * speed);
+
+			movers[m].applyForce(drag);
+		}
 	
 		// Updating velocity, location, acceleration etc
 		// Checking for edges
