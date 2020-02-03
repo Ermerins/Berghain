@@ -82,10 +82,5 @@ function applyFriction(obj) {
 }
 
 
-/*
-	F_grav = (G * m1 * m2) / d^2 * r_norm
-*/
-function applyGravitationalForce(obj) {
-	return 0;
-}
+
 
