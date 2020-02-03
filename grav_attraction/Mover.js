@@ -1,12 +1,17 @@
 class Mover {
-	constructor(x, y) {
+	constructor(x, y, mass) {
 		this.location = createVector(x, y);
 		this.velocity = createVector(0, 0);
 		this.acceleration = createVector(0, 0);
-		this.mass = random(1, 3);
+		this.mass = mass;
 
 		this.height = 20;
 		this.width = 20;
+	}
+
+	setVelocity(x, y) {
+		this.velocity.x = x;
+		this.velocity.y = y;
 	}
 
 	// returns a vector that will be applied to the mover
@@ -17,12 +22,15 @@ class Mover {
 		let loc_mover = mover.location.copy();
 		let loc_attractor = this.location.copy();
 
-		let mass_mover = mover.mass.copy();
-		let mass_attractor = this.mass.copy();
+		let mass_mover = mover.mass;
+		let mass_attractor = this.mass;
 
 		// Get direction of the force (and d)
 		let force = loc_attractor.sub(loc_mover);
 		let d = force.mag();
+
+		d = constrain(d, 5, 25);
+
 		force.normalize();
 
 		// Get magnitude of the force
